@@ -1,4 +1,5 @@
-var grunt = require('grunt'),
+var path = require('path'),
+    grunt = require('grunt'),
     gruntMixinDir = require('../lib/grunt-mixin-dir.js')(grunt);
 
 /*
@@ -60,6 +61,39 @@ exports['grunt-mixin-dir'] = {
     var expectedFiles = [
       {file: {src: 'test_files/b.js', dest: 'tmp/b.js'}, data: {}},
       {file: {src: 'test_files/a.js', dest: 'tmp/a.js'}, data: {}}
+    ];
+    test.deepEqual(files, expectedFiles);
+    test.done();
+  },
+  'routerful': function (test) {
+    // Set up
+    test.expect(1);
+    var that = {
+          file: {
+            src: ['test_files/*.js'],
+            dest: 'tmp/'
+          },
+          data: {
+            router: function (file) {
+              // Redirect all .js to .txt
+              var filename = path.basename(file);
+              return filename.replace('js', 'txt');
+            }
+          }
+        };
+
+    // Run gruntMixinDir and save everything
+    // DEV: This is being a bit risky since we don't care about ordering
+    var files = [],
+        info = gruntMixinDir.call(that, function () {
+          // Append options onto dest file
+          files.push(this);
+        });
+
+    // Run our assertions and return
+    var expectedFiles = [
+      {file: {src: 'test_files/b.js', dest: 'tmp/b.txt'}, data: that.data},
+      {file: {src: 'test_files/a.js', dest: 'tmp/a.txt'}, data: that.data}
     ];
     test.deepEqual(files, expectedFiles);
     test.done();
