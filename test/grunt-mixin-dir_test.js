@@ -58,8 +58,8 @@ exports['grunt-mixin-dir'] = {
 
     // Run our assertions and return
     var expectedFiles = [
-      {src: 'test_files/a.js', dest: 'tmp/a.js'},
-      {src: 'test_files/b.js', dest: 'tmp/b.js'}
+      {file: {src: 'test_files/b.js', dest: 'tmp/b.js'}, data: {}},
+      {file: {src: 'test_files/a.js', dest: 'tmp/a.js'}, data: {}}
     ];
     test.deepEqual(files, expectedFiles);
     test.done();
