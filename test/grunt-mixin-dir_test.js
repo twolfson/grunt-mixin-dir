@@ -34,21 +34,26 @@ var outline = {
   }
 };
 
+// Relocate to test directory for proper routing
+process.chdir(__dirname);
 exports['grunt-mixin-dir'] = {
   'routerless': function (test) {
     // Set up
     test.expect(1);
     var that = {
-          src: ['test_files/*.js'],
-          dest: 'tmp/'
+          file: {
+            src: ['test_files/*.js'],
+            dest: 'tmp/'
+          },
+          data: {}
         };
 
     // Run gruntMixinDir and save everything
     // DEV: This is being a bit risky since we don't care about ordering
     var files = [],
-        info = gruntMixinDir.call(that, function (options) {
+        info = gruntMixinDir.call(that, function () {
           // Append options onto dest file
-          files.push(options);
+          files.push(this);
         });
 
     // Run our assertions and return
