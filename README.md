@@ -37,11 +37,49 @@ gruntMixinDir.call(this, task);
 ```
 
 ## Examples
-_(Coming soon)_
+The following example is taken from [grunt-html-prettyprinter][prettyprinter].
+
+```js
+// Inside of tasks/html-prettyprinter
+// Load in gruntMixinDir
+var gruntMixinDirFn = require('grunt-mixin-dir');
+module.exports = function (grunt) {
+  // Load in gruntMixinDir
+  gruntMixinDir = gruntMixinDirFn(grunt);
+
+  // Beautify directory of files
+  grunt.registerMultiTask('html-prettyprinter-dir', 'Prettyprint HTML directory from src to dest', function () {
+    // Run the prettyprint task on our items
+    var taskInfo = gruntMixinDir.call(this, function callPrettyprinterFile () {
+      grunt.helper('html-prettyprinter-file', this);
+    });
+
+    // Fail task if errors were logged.
+    if (this.errorCount) { return false; }
+
+    // Otherwise, print a success message.
+    grunt.log.writeln('File "' + taskInfo.destFiles.join('", "') + '" created.');
+  });
+
+  grunt.registerHelper('html-prettyprinter-file',  function prettyprintFile (options) {
+    // Collect the filepaths we need
+    var file = options.file,
+        src = file.src,
+        dest = file.dest;
+
+    // Run beautification...
+
+    // Output beautified content
+    grunt.file.write(dest, beautifiedContent);
+  });
+```
+
+[prettyprinter]: https://github.com/twolfson/grunt-html-prettyprinter
 
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [grunt](https://github.com/gruntjs/grunt).
 
 ## License
 Copyright (c) 2013 Todd Wolfson
+
 Licensed under the MIT license.
