@@ -38,17 +38,25 @@ exports['grunt-mixin-dir'] = {
   'routerless': function (test) {
     // Set up
     test.expect(1);
+    var that = {
+          src: ['test_files/*.js'],
+          dest: 'tmp/'
+        };
 
     // Run gruntMixinDir and save everything
-    var destFiles,
-        info = gruntMixinDir.call({
-          src: ['
-        }, function (options) {
-          //
+    // DEV: This is being a bit risky since we don't care about ordering
+    var files = [],
+        info = gruntMixinDir.call(that, function (options) {
+          // Append options onto dest file
+          files.push(options);
         });
 
-    // Run our
-    test.equal(grunt_mixin_dir.awesome(), 'awesome', 'should be awesome.');
+    // Run our assertions and return
+    var expectedFiles = [
+      {src: 'test_files/a.js', dest: 'tmp/a.js'},
+      {src: 'test_files/b.js', dest: 'tmp/b.js'}
+    ];
+    test.deepEqual(files, expectedFiles);
     test.done();
   }
 };
