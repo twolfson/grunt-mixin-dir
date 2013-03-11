@@ -1,4 +1,5 @@
-var grunt_mixin_dir = require('../lib/grunt-mixin-dir.js');
+var grunt = require('grunt'),
+    gruntMixinDir = require('../lib/grunt-mixin-dir.js')(grunt);
 
 /*
   ======== A Handy Little Nodeunit Reference ========
@@ -20,14 +21,33 @@ var grunt_mixin_dir = require('../lib/grunt-mixin-dir.js');
     test.ifError(value)
 */
 
-exports['awesome'] = {
-  setUp: function(done) {
-    // setup here
-    done();
+var outline = {
+  'A router-less set of options': {
+    'processed via grunt-mixin-dir': {
+      'outputs content in the dest directory': true
+    }
   },
-  'no args': function(test) {
+  'A router-ful set of options': {
+    'processed via grunt-mixin-dir': {
+      'outputs content in the dest directory with routing adjustments': true
+    }
+  }
+};
+
+exports['grunt-mixin-dir'] = {
+  'routerless': function (test) {
+    // Set up
     test.expect(1);
-    // tests here
+
+    // Run gruntMixinDir and save everything
+    var destFiles,
+        info = gruntMixinDir.call({
+          src: ['
+        }, function (options) {
+          //
+        });
+
+    // Run our
     test.equal(grunt_mixin_dir.awesome(), 'awesome', 'should be awesome.');
     test.done();
   }
