@@ -1,4 +1,4 @@
-# grunt-mixin-dir
+# grunt-mixin-dir [![Donate on Gittip](http://badgr.co/gittip/twolfson.png)](https://www.gittip.com/twolfson/)
 
 Utility to add directory handling to your grunt task
 

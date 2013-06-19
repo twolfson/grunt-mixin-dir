@@ -1,7 +1,7 @@
 {
   "name": "grunt-mixin-dir",
   "description": "Utility to add directory handling to your grunt task",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "homepage": "https://github.com/twolfson/grunt-mixin-dir",
   "author": {
     "name": "Todd Wolfson",
